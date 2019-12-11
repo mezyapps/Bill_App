@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Bill App</string>
+    <string name="company_name">http://jmd-infotech.com</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+
+    <string name="dashboard">Dashboard</string>
+    <string name="share_app">Share App</string>
+    <string name="logout">Logout</string>
+    <string name="change_password">Change Password</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="date">Date :-</string>
+    <string name="qty">Qty</string>
+    <string name="rate">Rate</string>
+    <string name="amount">Amount</string>
+    <string name="save">save</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">Enter Name</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="change">Change</string>
+    <string name="enter_confirm_password">Enter Confirm Password</string>
+    <string name="search">Search</string>
+    <string name="to_date">To Date</string>
+    <string name="to">to</string>
+    <string name="from_date">From Date</string>
+    <string name="today_date">Today Date</string>
+
+    <string name="select_date">Select Date</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="this_week">This Week</string>
+    <string name="this_month">This Month</string>
+    <string name="last_month">Last Month</string>
+    <string name="custom">Custom</string>
+    <string name="ok">Ok</string>
+    <string name="bill_list">Bill List</string>
+    <string name="bill_no">Bill No :-</string>
+    <string name="cust_name">Cust Name:-</string>
+    <string name="total_qty">Total Qty:-</string>
+    <string name="total_amount">Total Amount:-</string>
+    <string name="view">VIEW</string>
+    <string name="bill">Bill</string>
+    <string name="sr_no">Sr.No</string>
+    <string name="name1">Name :-</string>
+    <string name="close">Close</string>
+    <string name="_9890322940">9890322940</string>
+    <string name="edit">EDIT</string>
+    <string name="edit_bill">Edit Bill</string>
+    <string name="delete">Delete</string>
+    <string name="bill_delete">Are You Sure You Want To Delete Bill</string>
+</resources>
