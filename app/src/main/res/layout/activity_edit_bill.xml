@@ -51,8 +51,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
                     android:background="@drawable/shape_edit_text"
                     android:orientation="horizontal">
 
@@ -62,8 +62,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_vector_calendar"
-                        android:textAllCaps="true"
                         android:drawablePadding="5dp"
+                        android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -73,8 +73,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_marginStart="5dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <EditText
@@ -100,8 +100,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/item"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"/>
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/text_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/shape_edit_text"
+                        android:inputType="textEmailAddress"
+                        android:padding="5dp"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,6 +148,7 @@
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
+
                     <EditText
                         android:id="@+id/edt_qty"
                         android:layout_width="match_parent"
@@ -130,6 +160,15 @@
 
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -195,24 +234,25 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1.2"
-                    android:padding="2dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="2dp">
 
 
                     <ImageView
                         android:id="@+id/iv_add"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/shape_circle_btn"
+                        android:padding="5dp"
                         android:src="@drawable/ic_vector_add" />
 
 
                 </RelativeLayout>
 
             </LinearLayout>
+
 
 
             <LinearLayout
@@ -266,8 +306,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:drawableStart="@drawable/ic_vector_edit"
                         android:gravity="center"
-                        android:text="Sr.No"
+                        android:text="@string/sr_no"
+                        android:textAllCaps="true"
+                        android:textColor="@color/app_color"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/item"
                         android:textAllCaps="true"
                         android:textColor="@color/app_color"
                         android:textSize="14sp" />
@@ -304,18 +356,6 @@
                         android:textAllCaps="true"
                         android:textColor="@color/app_color"
                         android:textSize="14sp" />
-
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:src="@drawable/ic_vector_edit"
-                        android:textAllCaps="true"
-                        android:textColor="@color/app_color"
-                        android:textSize="14sp" />
-
 
                 </LinearLayout>
 
@@ -367,6 +407,7 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 
 </LinearLayout>

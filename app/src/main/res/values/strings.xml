@@ -36,7 +36,7 @@
     <string name="this_month">This Month</string>
     <string name="last_month">Last Month</string>
     <string name="custom">Custom</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="bill_list">Bill List</string>
     <string name="bill_no">Bill No :-</string>
     <string name="cust_name">Cust Name:-</string>
@@ -52,4 +52,5 @@
     <string name="edit_bill">Edit Bill</string>
     <string name="delete">Delete</string>
     <string name="bill_delete">Are You Sure You Want To Delete Bill</string>
+    <string name="item">Item</string>
 </resources>

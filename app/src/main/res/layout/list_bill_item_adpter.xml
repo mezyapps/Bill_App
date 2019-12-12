@@ -19,7 +19,20 @@
             android:id="@+id/textsrNo"
             android:layout_weight="1"
             android:gravity="center"
+            android:drawableStart="@drawable/ic_vector_edit"
             android:textColor="@color/black"
+            android:textSize="14sp"/>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:id="@+id/text_item"
             android:textSize="14sp"/>
 
 
@@ -53,18 +66,6 @@
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:id="@+id/textAmount"
-            android:textSize="14sp"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_vector_edit"
-            android:textAllCaps="true"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="2dp"
-            android:id="@+id/iv_open_dialog"
-            android:textColor="@color/app_color"
             android:textSize="14sp"/>
 
 

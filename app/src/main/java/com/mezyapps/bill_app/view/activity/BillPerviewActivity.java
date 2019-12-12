@@ -122,6 +122,7 @@ public class BillPerviewActivity extends AppCompatActivity {
             int sr_no = 1;
             while (cursor.moveToNext()) {
                 String id = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.ID));
+                String item = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.ITEM));
                 String qty = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.QTY));
                 String rate = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.RATE));
                 String amt = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.AMOUNT));
@@ -129,6 +130,7 @@ public class BillPerviewActivity extends AppCompatActivity {
 
                 LocalDBItemModel localDBItemModel = new LocalDBItemModel();
                 localDBItemModel.setId(id);
+                localDBItemModel.setItem(item);
                 localDBItemModel.setQty(qty);
                 localDBItemModel.setRate(rate);
                 localDBItemModel.setAmt(amt);
@@ -185,13 +187,14 @@ public class BillPerviewActivity extends AppCompatActivity {
         document.setMargins(10, 10, 0f, 0f);
         float fontSize=10.0f;
 
-        PdfPTable table = new PdfPTable(new float[]{2, 2, 2, 2});
+        PdfPTable table = new PdfPTable(new float[]{2,2, 2, 2, 2});
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
         table.getDefaultCell().setFixedHeight(20);
         table.setTotalWidth(PageSize.A5.getWidth());
         table.setWidthPercentage(100);
         table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell("Sr.No");
+        table.addCell("Item");
         table.addCell("Qty");
         table.addCell("Rate");
         table.addCell("Amt");
@@ -204,17 +207,20 @@ public class BillPerviewActivity extends AppCompatActivity {
         }
         int sr_no=1;
         for (int i = 0; i < localDBItemModelArrayList.size(); i++) {
+            String item = localDBItemModelArrayList.get(i).getItem();
             String qty = localDBItemModelArrayList.get(i).getQty();
             String rate = localDBItemModelArrayList.get(i).getRate();
             String amount=localDBItemModelArrayList.get(i).getAmt();
 
             table.addCell(String.valueOf(sr_no));
+            table.addCell(String.valueOf(item));
             table.addCell(String.valueOf(qty));
             table.addCell(String.valueOf(rate));
             table.addCell(String.valueOf(amount));
             sr_no++;
         }
         Font cellFont = new Font(Font.FontFamily.TIMES_ROMAN, Font.DEFAULTSIZE, Font.BOLD, BaseColor.BLACK);
+        table.addCell("");
         table.addCell(new Phrase(Element.ALIGN_CENTER,"Total Qty",cellFont));
         table.addCell(new Phrase(Element.ALIGN_CENTER,total_qty,cellFont));
         table.addCell(new Phrase(Element.ALIGN_CENTER,"Total Amt",cellFont));

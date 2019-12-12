@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -47,10 +48,11 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
     private ImageView iv_back;
     private TextView textDate, textTotalAmt, textTotalQty;
+    private AutoCompleteTextView text_item;
     private EditText edt_qty, edt_rate, edt_amt, edt_party_name;
     private RecyclerView recyclerViewBill;
     private ImageView iv_add;
-    private String qty, rate, amt;
+    private String qty, rate, amt,item;
     private DatabaseHandler databaseHandler;
     private ArrayList<LocalDBItemModel> localDBItemModelArrayList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
@@ -74,6 +76,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
     private void find_View_IDs() {
         iv_back = findViewById(R.id.iv_back);
+        text_item = findViewById(R.id.text_item);
         textDate = findViewById(R.id.textDate);
         edt_qty = findViewById(R.id.edt_qty);
         edt_rate = findViewById(R.id.edt_rate);
@@ -127,6 +130,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
             int sr_no = 1;
             while (cursor.moveToNext()) {
                 String id = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.ID));
+                String item = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.ITEM));
                 String qty = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.QTY));
                 String rate = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.RATE));
                 String amt = cursor.getString(cursor.getColumnIndex(DatabaseConstant.BillDT.AMOUNT));
@@ -134,6 +138,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
                 LocalDBItemModel localDBItemModel = new LocalDBItemModel();
                 localDBItemModel.setId(id);
+                localDBItemModel.setItem(item);
                 localDBItemModel.setQty(qty);
                 localDBItemModel.setRate(rate);
                 localDBItemModel.setAmt(amt);
@@ -156,9 +161,10 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
         boolean val = false;
         for (int i = 0; i < localDBItemModelArrayList.size(); i++) {
             String qty = localDBItemModelArrayList.get(i).getQty();
+            String item = localDBItemModelArrayList.get(i).getItem();
             String rate = localDBItemModelArrayList.get(i).getRate();
             String amount = localDBItemModelArrayList.get(i).getAmt();
-            val = saveBillTemp(qty, rate, amount);
+            val = saveBillTemp(item,qty, rate, amount);
         }
         if (val) {
             callListItem();
@@ -182,16 +188,18 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
             int sr_no = 1;
             while (cursor.moveToNext()) {
-                String id = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.ID));
-                String qty = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.QTY));
-                String rate = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.RATE));
-                String amt = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.AMOUNT));
+                String id = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.ID));
+                String item = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.ITEM));
+                String qty = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.QTY));
+                String rate = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.RATE));
+                String amt = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.AMOUNT));
                 total_amount = cursor.getString(cursor.getColumnIndex("TOTAL_AMT"));
                 totalQty = cursor.getString(cursor.getColumnIndex("TOTAL_QTY"));
 
 
                 LocalDBItemModel localDBItemModel = new LocalDBItemModel();
                 localDBItemModel.setId(id);
+                localDBItemModel.setItem(item);
                 localDBItemModel.setQty(qty);
                 localDBItemModel.setRate(rate);
                 localDBItemModel.setAmt(amt);
@@ -218,13 +226,14 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
         }
     }
 
-    private boolean saveBillTemp(String qty, String rate, String amount) {
+    private boolean saveBillTemp(String item,String qty, String rate, String amount) {
         Boolean returnVal = false;
         try {
             long result = 0;
 
             SQLiteDatabase db = databaseHandler.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseConstant.ItemTEMP.ITEM, item);
             contentValues.put(DatabaseConstant.ItemTEMP.QTY, qty);
             contentValues.put(DatabaseConstant.ItemTEMP.RATE, rate);
             contentValues.put(DatabaseConstant.ItemTEMP.AMOUNT, amount);
@@ -394,6 +403,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
             SQLiteDatabase db = databaseHandler.getWritableDatabase();
 
             ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseConstant.ItemTEMP.ITEM, item);
             contentValues.put(DatabaseConstant.ItemTEMP.QTY, qty);
             contentValues.put(DatabaseConstant.ItemTEMP.RATE, rate);
             contentValues.put(DatabaseConstant.ItemTEMP.AMOUNT, amt);
@@ -404,10 +414,11 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
                 Toast.makeText(EditBillActivity.this, "Item Not Added", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(EditBillActivity.this, "Item Add Successfully", Toast.LENGTH_SHORT).show();
+                text_item.setText("");
                 edt_qty.setText("");
                 edt_rate.setText("");
                 edt_amt.setText("");
-                edt_qty.requestFocus();
+                text_item.requestFocus();
                 db.close();
                 callListItem();
             }
@@ -419,15 +430,18 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
     private void callEditItem() {
         SQLiteDatabase db = databaseHandler.getWritableDatabase();
         String sql = "UPDATE ITEM_TEMP \n" +
-                "SET QTY = ?, \n" +
+                "SET ITEM = ?, \n" +
+                "QTY = ?, \n" +
                 "RATE = ?, \n" +
                 "AMOUNT = ? \n" +
                 "WHERE ITEM_ID = ?;\n";
 
-        db.execSQL(sql, new String[]{qty, rate, amt, itemId});
+        db.execSQL(sql, new String[]{item,qty, rate, amt, itemId});
+        text_item.setText("");
         edt_qty.setText("");
         edt_rate.setText("");
         edt_amt.setText("");
+        text_item.requestFocus();
         itemId = "";
         Toast.makeText(EditBillActivity.this, "Update Bill", Toast.LENGTH_SHORT).show();
         callListItem();
@@ -436,7 +450,12 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
     private boolean validation() {
         qty = edt_qty.getText().toString().trim();
         rate = edt_rate.getText().toString().trim();
-        if (qty.equalsIgnoreCase("")) {
+        item = text_item.getText().toString().trim();
+        if (item.equalsIgnoreCase("")) {
+            edt_qty.setError("Enter Item");
+            edt_qty.requestFocus();
+            return false;
+        }else if (qty.equalsIgnoreCase("")) {
             edt_qty.setError("Enter Qty");
             edt_qty.requestFocus();
             return false;
@@ -480,6 +499,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
     @Override
     public void getSelectItemEdit(LocalDBItemModel localDBItemModel) {
+        text_item.setText(localDBItemModel.getItem());
         edt_qty.setText(localDBItemModel.getQty());
         edt_amt.setText(localDBItemModel.getAmt());
         edt_rate.setText(localDBItemModel.getRate());
@@ -537,10 +557,11 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
         boolean val = false;
         for (int i = 0; i < localDBItemModelArrayList.size(); i++) {
+            String item = localDBItemModelArrayList.get(i).getItem();
             String qty = localDBItemModelArrayList.get(i).getQty();
             String rate = localDBItemModelArrayList.get(i).getRate();
             String amount = localDBItemModelArrayList.get(i).getAmt();
-            val = saveBillDTCall(qty, rate, amount);
+            val = saveBillDTCall(item,qty, rate, amount);
         }
         if (val) {
             deleteTable();
@@ -557,7 +578,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
     }
 
-    private boolean saveBillDTCall(String qty, String rate, String amount) {
+    private boolean saveBillDTCall(String item,String qty, String rate, String amount) {
         Boolean returnVal = false;
         try {
             long result = 0;
@@ -565,6 +586,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
             SQLiteDatabase db = databaseHandler.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(DatabaseConstant.BillDT.ID, bill_no);
+            contentValues.put(DatabaseConstant.BillDT.ITEM, item);
             contentValues.put(DatabaseConstant.BillDT.QTY, qty);
             contentValues.put(DatabaseConstant.BillDT.RATE, rate);
             contentValues.put(DatabaseConstant.BillDT.AMOUNT, amount);

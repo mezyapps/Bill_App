@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -60,6 +61,7 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment implements SelectBillIItemInterface {
     private Context mContext;
     private TextView textDate, textTotalAmt, textTotalQty;
+    private AutoCompleteTextView text_item;
     private EditText edt_qty, edt_rate, edt_amt, edt_party_name;
     private RecyclerView recyclerViewBill;
     private ImageView iv_add;
@@ -68,7 +70,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
     private ArrayList<LocalDBItemModel> localDBItemModelArrayList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private SelectBillIItemInterface selectBillIItemInterface;
-    private String itemId = "", getDate, sendDate;
+    private String itemId = "", getDate, sendDate,Item;
     String total_amount = "", totalQty = "";
     private ItemAdapter itemAdapter;
     private Button save_bill;
@@ -94,6 +96,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
         textDate = view.findViewById(R.id.textDate);
         edt_qty = view.findViewById(R.id.edt_qty);
         edt_rate = view.findViewById(R.id.edt_rate);
+        text_item = view.findViewById(R.id.text_item);
         edt_amt = view.findViewById(R.id.edt_amt);
         recyclerViewBill = view.findViewById(R.id.recyclerViewBill);
         iv_add = view.findViewById(R.id.iv_add);
@@ -114,7 +117,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
         String date = getDate;
         textDate.setText(date);
         user_id = SharedLoginUtils.getUserId(mContext);
-        edt_qty.requestFocus();
+        text_item.requestFocus();
         callCheckSession();
         callListItem();
     }
@@ -291,6 +294,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
             SQLiteDatabase db = databaseHandler.getWritableDatabase();
 
             ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseConstant.Item.ITEM, Item);
             contentValues.put(DatabaseConstant.Item.QTY, qty);
             contentValues.put(DatabaseConstant.Item.RATE, rate);
             contentValues.put(DatabaseConstant.Item.AMOUNT, amt);
@@ -301,10 +305,11 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 Toast.makeText(mContext, "Item Not Added", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(mContext, "Item Add Successfully", Toast.LENGTH_SHORT).show();
+                text_item.setText("");
                 edt_qty.setText("");
                 edt_rate.setText("");
                 edt_amt.setText("");
-                edt_qty.requestFocus();
+                text_item.requestFocus();
                 db.close();
                 callListItem();
             }
@@ -316,15 +321,18 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
     private void callEditItem() {
         SQLiteDatabase db = databaseHandler.getWritableDatabase();
         String sql = "UPDATE BILL_TBL \n" +
-                "SET QTY = ?, \n" +
+                "SET ITEM = ?, \n" +
+                "QTY = ?, \n" +
                 "RATE = ?, \n" +
                 "AMOUNT = ? \n" +
                 "WHERE ITEM_ID = ?;\n";
 
-        db.execSQL(sql, new String[]{qty, rate, amt, itemId});
+        db.execSQL(sql, new String[]{Item,qty, rate, amt, itemId});
+        text_item.setText("");
         edt_qty.setText("");
         edt_rate.setText("");
         edt_amt.setText("");
+        text_item.requestFocus();
         itemId = "";
         Toast.makeText(mContext, "Update Bill", Toast.LENGTH_SHORT).show();
         callListItem();
@@ -344,6 +352,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
 
             int sr_no = 1;
             while (cursor.moveToNext()) {
+                String item = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.ITEM));
                 String id = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.ID));
                 String qty = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.QTY));
                 String rate = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.RATE));
@@ -357,6 +366,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 localDBItemModel.setQty(qty);
                 localDBItemModel.setRate(rate);
                 localDBItemModel.setAmt(amt);
+                localDBItemModel.setItem(item);
 
                 localDBItemModel.setSr_no(String.valueOf(sr_no));
 
@@ -372,7 +382,9 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                     linearLayoutManager.scrollToPosition(localDBItemModelArrayList.size() - 1);
                 }
                 itemAdapter.notifyDataSetChanged();
-            } else {
+            }
+            else
+            {
                 itemAdapter.notifyDataSetChanged();
             }
         } catch (Exception e) {
@@ -444,10 +456,11 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
 
         boolean val = false;
         for (int i = 0; i < localDBItemModelArrayList.size(); i++) {
+            String item = localDBItemModelArrayList.get(i).getItem();
             String qty = localDBItemModelArrayList.get(i).getQty();
             String rate = localDBItemModelArrayList.get(i).getRate();
             String amount = localDBItemModelArrayList.get(i).getAmt();
-            val = saveBillDTCall(maxValue, qty, rate, amount);
+            val = saveBillDTCall(maxValue,item, qty, rate, amount);
         }
         if (val) {
             edt_party_name.setText("");
@@ -463,7 +476,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
 
     }
 
-    private boolean saveBillDTCall(int maxValue, String qty, String rate, String amount) {
+    private boolean saveBillDTCall(int maxValue,String item, String qty, String rate, String amount) {
         Boolean returnVal = false;
         try {
             long result = 0;
@@ -471,6 +484,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
             SQLiteDatabase db = databaseHandler.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(DatabaseConstant.BillDT.ID, maxValue);
+            contentValues.put(DatabaseConstant.BillDT.ITEM, item);
             contentValues.put(DatabaseConstant.BillDT.QTY, qty);
             contentValues.put(DatabaseConstant.BillDT.RATE, rate);
             contentValues.put(DatabaseConstant.BillDT.AMOUNT, amount);
@@ -492,7 +506,12 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
     private boolean validation() {
         qty = edt_qty.getText().toString().trim();
         rate = edt_rate.getText().toString().trim();
-        if (qty.equalsIgnoreCase("")) {
+        Item = text_item.getText().toString().trim();
+        if (Item.equalsIgnoreCase("")) {
+            text_item.setError("Enter Item");
+            text_item.requestFocus();
+            return false;
+        }else if (qty.equalsIgnoreCase("")) {
             edt_qty.setError("Enter Qty");
             edt_qty.requestFocus();
             return false;
@@ -507,6 +526,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
 
     @Override
     public void getSelectItemEdit(LocalDBItemModel localDBItemModel) {
+        text_item.setText(localDBItemModel.getItem());
         edt_qty.setText(localDBItemModel.getQty());
         edt_amt.setText(localDBItemModel.getAmt());
         edt_rate.setText(localDBItemModel.getRate());

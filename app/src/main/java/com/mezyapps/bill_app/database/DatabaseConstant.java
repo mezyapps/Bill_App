@@ -8,25 +8,28 @@ public class DatabaseConstant {
     public static class Item
     {
         public static final String ID="ITEM_ID";
+        public static final String ITEM="ITEM";
         public static final String QTY="QTY";
         public static final String RATE="RATE";
         public static final String AMOUNT="AMOUNT";
         public static final String TABLE_NAME="BILL_TBL";
 
         public static final String BILL_TABLE = "CREATE TABLE " +TABLE_NAME+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + QTY + " TEXT," +RATE+ " TEXT," + AMOUNT + " TEXT"+ ")";
+                + ITEM + " TEXT,"+ QTY + " TEXT," +RATE+ " TEXT," + AMOUNT + " TEXT"+ ")";
     }
 
     public static class ItemTEMP
     {
         public static final String ID="ITEM_ID";
+        public static final String ITEM="ITEM";
         public static final String QTY="QTY";
         public static final String RATE="RATE";
         public static final String AMOUNT="AMOUNT";
         public static final String TABLE_NAME="ITEM_TEMP";
 
+
         public static final String BILL_TABLE = "CREATE TABLE " +TABLE_NAME+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + QTY + " TEXT," +RATE+ " TEXT," + AMOUNT + " TEXT"+ ")";
+                + ITEM + " TEXT,"+ QTY + " TEXT," +RATE+ " TEXT," + AMOUNT + " TEXT"+ ")";
     }
 
     public static class BillHD
@@ -47,12 +50,13 @@ public class DatabaseConstant {
     public static class BillDT
     {
         public static final String ID="BILL_ID_DT";
+        public static final String ITEM="ITEM";
         public static final String QTY="QTY";
         public static final String RATE="RATE";
         public static final String AMOUNT="AMOUNT";
         public static final String TABLE_NAME="BILL_DT";
 
         public static final String BILL_TD = "CREATE TABLE " +TABLE_NAME+ "(" + ID + " INTEGER,"
-                + QTY + " TEXT," +RATE+ " TEXT," + AMOUNT + " TEXT"+")";
+                + ITEM + " TEXT,"+ QTY + " TEXT," +RATE+ " TEXT," + AMOUNT + " TEXT"+")";
     }
 }

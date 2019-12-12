@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="5dp"
-                    android:weightSum="4">
+                    android:weightSum="5">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -185,6 +185,19 @@
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/item"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
 
 
                     <TextView

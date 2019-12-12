@@ -52,8 +52,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.textRate.setText(localDBItemModelArrayList.get(position).getRate());
         holder.textAmount.setText(localDBItemModelArrayList.get(position).getAmt());
         holder.textsrNo.setText(localDBItemModelArrayList.get(position).getSr_no());
-        
-        holder.iv_open_dialog.setOnClickListener(new View.OnClickListener() {
+        holder.text_item.setText(localDBItemModelArrayList.get(position).getItem());
+
+        holder.textsrNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Dialog  dialog = new Dialog(mContext);
@@ -63,7 +64,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                 TextView txt_delete = dialog.findViewById(R.id.txt_delete);
                 TextView sr_no = dialog.findViewById(R.id.sr_no);
                 dialog.setCancelable(true);
-                String sr_nostr="SR.NO :"+localDBItemModelArrayList.get(position).getSr_no();
+                String sr_nostr=localDBItemModelArrayList.get(position).getSr_no()+" "+localDBItemModelArrayList.get(position).getItem();
                 sr_no.setText(sr_nostr);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -98,8 +99,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textQty, textRate, textAmount,textsrNo;
-        private ImageView iv_open_dialog;
+        private TextView textQty, textRate, textAmount,textsrNo,text_item;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +107,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             textRate = itemView.findViewById(R.id.textRate);
             textAmount = itemView.findViewById(R.id.textAmount);
             textsrNo = itemView.findViewById(R.id.textsrNo);
-            iv_open_dialog = itemView.findViewById(R.id.iv_open_dialog);
+            text_item = itemView.findViewById(R.id.text_item);
         }
     }
 }

@@ -43,6 +43,7 @@ public class BillitemAdapter extends RecyclerView.Adapter<BillitemAdapter.MyView
         holder.textRate.setText(localDBItemModelArrayList.get(position).getRate());
         holder.textAmount.setText(localDBItemModelArrayList.get(position).getAmt());
         holder.textsrNo.setText(localDBItemModelArrayList.get(position).getSr_no());
+        holder.text_item.setText(localDBItemModelArrayList.get(position).getItem());
     }
 
     @Override
@@ -51,8 +52,7 @@ public class BillitemAdapter extends RecyclerView.Adapter<BillitemAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textQty, textRate, textAmount,textsrNo;
-        private ImageView iv_open_dialog;
+        private TextView textQty, textRate, textAmount,textsrNo,text_item;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,7 +60,7 @@ public class BillitemAdapter extends RecyclerView.Adapter<BillitemAdapter.MyView
             textRate = itemView.findViewById(R.id.textRate);
             textAmount = itemView.findViewById(R.id.textAmount);
             textsrNo = itemView.findViewById(R.id.textsrNo);
-            iv_open_dialog = itemView.findViewById(R.id.iv_open_dialog);
+            text_item = itemView.findViewById(R.id.text_item);
         }
     }
 }

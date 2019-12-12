@@ -1,6 +1,7 @@
 package com.mezyapps.bill_app.model;
 
 public class LocalDBItemModel {
+    private String item;
     private String qty;
     private String rate;
     private String amt;
@@ -46,5 +47,13 @@ public class LocalDBItemModel {
 
     public void setSr_no(String sr_no) {
         this.sr_no = sr_no;
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
     }
 }
