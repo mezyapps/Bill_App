@@ -316,9 +316,9 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                Double qtyInt = Double.parseDouble(qty);
-                Double rateInt = Double.parseDouble(rate);
-                Double amount = qtyInt * rateInt;
+                float qtyInt = Float.parseFloat(qty);
+                float rateInt = Float.parseFloat(rate);
+                float amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
             }
@@ -337,6 +337,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 qty = edt_qty.getText().toString().trim();
+                qty = edt_qty.getText().toString().trim();
                 rate = edt_rate.getText().toString().trim();
                 if (qty.equalsIgnoreCase("")) {
                     qty = "0";
@@ -345,11 +346,12 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                Double qtyInt = Double.parseDouble(qty);
-                Double rateInt = Double.parseDouble(rate);
-                Double amount = qtyInt * rateInt;
+                float qtyInt = Float.parseFloat(qty);
+                float rateInt = Float.parseFloat(rate);
+                float amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
+
             }
 
             @Override
