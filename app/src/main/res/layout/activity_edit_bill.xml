@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:weightSum="2"
+                android:weightSum="3"
                 android:orientation="horizontal">
 
 
@@ -156,25 +156,16 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/shape_edit_text"
                         android:hint="@string/qty"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
 
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="5dp"
-                    android:layout_weight="0.9"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
 
@@ -193,16 +184,25 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/shape_edit_text"
                         android:hint="@string/rate"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
 
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="5dp"
-                    android:layout_weight="0.9"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
 
@@ -222,9 +222,10 @@
                         android:background="@drawable/shape_edit_text"
                         android:clickable="false"
                         android:cursorVisible="false"
+                        android:textColor="@color/colorAccent"
                         android:focusable="false"
                         android:hint="@string/amount"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
 
 
                 </LinearLayout>
@@ -233,7 +234,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="15dp"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:padding="2dp">
 
@@ -250,6 +251,11 @@
 
 
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 

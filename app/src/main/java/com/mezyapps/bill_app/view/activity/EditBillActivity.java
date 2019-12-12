@@ -52,7 +52,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
     private EditText edt_qty, edt_rate, edt_amt, edt_party_name;
     private RecyclerView recyclerViewBill;
     private ImageView iv_add;
-    private String qty, rate, amt,item;
+    private String qty, rate, amt,item="";
     private DatabaseHandler databaseHandler;
     private ArrayList<LocalDBItemModel> localDBItemModelArrayList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
@@ -284,9 +284,9 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                int qtyInt = Integer.parseInt(qty);
-                int rateInt = Integer.parseInt(rate);
-                int amount = qtyInt * rateInt;
+                float qtyInt = Float.parseFloat(qty);
+                float rateInt = Float.parseFloat(rate);
+                float amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
             }
@@ -305,6 +305,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 qty = edt_qty.getText().toString().trim();
+                qty = edt_qty.getText().toString().trim();
                 rate = edt_rate.getText().toString().trim();
                 if (qty.equalsIgnoreCase("")) {
                     qty = "0";
@@ -313,9 +314,9 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                int qtyInt = Integer.parseInt(qty);
-                int rateInt = Integer.parseInt(rate);
-                int amount = qtyInt * rateInt;
+                float qtyInt = Float.parseFloat(qty);
+                float rateInt = Float.parseFloat(rate);
+                float amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
 
@@ -451,11 +452,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
         qty = edt_qty.getText().toString().trim();
         rate = edt_rate.getText().toString().trim();
         item = text_item.getText().toString().trim();
-        if (item.equalsIgnoreCase("")) {
-            edt_qty.setError("Enter Item");
-            edt_qty.requestFocus();
-            return false;
-        }else if (qty.equalsIgnoreCase("")) {
+        if (qty.equalsIgnoreCase("")) {
             edt_qty.setError("Enter Qty");
             edt_qty.requestFocus();
             return false;

@@ -59,4 +59,15 @@ public class DatabaseConstant {
         public static final String BILL_TD = "CREATE TABLE " +TABLE_NAME+ "(" + ID + " INTEGER,"
                 + ITEM + " TEXT,"+ QTY + " TEXT," +RATE+ " TEXT," + AMOUNT + " TEXT"+")";
     }
+
+
+    public static class ItemName
+    {
+        public static final String ID="ITEM_ID";
+        public static final String ITEM="ITEM_NAME";
+        public static final String TABLE_NAME="ItemName";
+
+        public static final String TEMP_NAME = "CREATE TABLE " +TABLE_NAME+ "(" + ID + " INTEGER,"
+                + ITEM + " TEXT"+")";
+    }
 }

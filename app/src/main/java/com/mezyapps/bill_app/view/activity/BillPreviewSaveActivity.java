@@ -39,6 +39,7 @@ import com.mezyapps.bill_app.database.DatabaseConstant;
 import com.mezyapps.bill_app.database.DatabaseHandler;
 import com.mezyapps.bill_app.model.BillHDModel;
 import com.mezyapps.bill_app.model.LocalDBItemModel;
+import com.mezyapps.bill_app.utils.SharedLoginUtils;
 import com.mezyapps.bill_app.utils.ShowProgressDialog;
 import com.mezyapps.bill_app.view.fragment.HomeFragment;
 
@@ -52,7 +53,7 @@ import java.util.Collections;
 public class BillPreviewSaveActivity extends AppCompatActivity {
 
     private BillHDModel billHDModel;
-    private String bill_no, date, cust_name, total_amt, total_qty;
+    private String bill_no, date, cust_name, total_amt, total_qty,company_name="";
     private ImageView iv_back, iv_print;
     private TextView textBillNo, textCustName, textDate, textTotalQty, textTotalAmt;
     private RecyclerView recyclerViewBill;
@@ -84,6 +85,8 @@ public class BillPreviewSaveActivity extends AppCompatActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(BillPreviewSaveActivity.this);
         recyclerViewBill.setLayoutManager(linearLayoutManager);
+
+        company_name= SharedLoginUtils.getCompanyName(BillPreviewSaveActivity.this);
 
         Bundle bundle =getIntent().getExtras();
         if (bundle != null) {
@@ -250,6 +253,13 @@ public class BillPreviewSaveActivity extends AppCompatActivity {
         //Document Title
         Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 20.0f, Font.BOLD, BaseColor.BLACK);
         addNewItem(document,"Estimate",Element.ALIGN_CENTER,titleFont);
+
+
+        if(!company_name.equalsIgnoreCase(""))
+        {
+            Font companyFont = new Font(Font.FontFamily.TIMES_ROMAN, 20.0f, Font.BOLD,BaseColor.BLACK);
+            addNewItem(document,company_name,Element.ALIGN_CENTER,companyFont);
+        }
 
         Font billNoFont = new Font(Font.FontFamily.TIMES_ROMAN, fontSize, Font.NORMAL, BaseColor.BLACK);
         addNewBillDateItem(document,billNoFont);

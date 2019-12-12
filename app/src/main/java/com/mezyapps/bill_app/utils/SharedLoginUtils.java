@@ -3,6 +3,8 @@ package com.mezyapps.bill_app.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.mezyapps.bill_app.view.activity.CompanyNameActivity;
+
 
 public class SharedLoginUtils {
 
@@ -12,6 +14,7 @@ public class SharedLoginUtils {
     public static final String USER_ID = "USER_ID";
     public static final String NAME = "NAME";
     public static final String MOBILE = "MOBILE";
+    public static final String COMPANY_NAME = "COMPANYNAME";
     private static SharedPreferences preferences;
     private static SharedPreferences.Editor editor;
 
@@ -57,6 +60,18 @@ public class SharedLoginUtils {
     public static String  getUserMobile(Context mContext) {
         preferences = mContext.getSharedPreferences(LOGIN_PREFERENCE, mContext.MODE_PRIVATE);
         String name=preferences.getString(MOBILE, "");
+        return name;
+    }
+    public static void addCompany(Context mContext,String company_name)
+    {
+        preferences = mContext.getSharedPreferences(LOGIN_PREFERENCE, mContext.MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putString(COMPANY_NAME,company_name);
+        editor.commit();
+    }
+    public static String  getCompanyName(Context mContext) {
+        preferences = mContext.getSharedPreferences(LOGIN_PREFERENCE, mContext.MODE_PRIVATE);
+        String name=preferences.getString(COMPANY_NAME, "");
         return name;
     }
 }

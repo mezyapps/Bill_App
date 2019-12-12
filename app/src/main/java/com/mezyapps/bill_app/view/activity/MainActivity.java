@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(new HomeFragment());
                 } else if (id == R.id.nav_change_password) {
                     loadFragment(new ChangePasswordFragment());
+                }else if (id == R.id.nav_setting) {
+                    startActivity(new Intent(MainActivity.this,CompanyNameActivity.class));
                 } else if (id == R.id.nav_share_app) {
                     shareApplication();
                 }else if (id == R.id.nav_bill_list) {

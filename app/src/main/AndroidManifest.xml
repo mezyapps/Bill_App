@@ -21,8 +21,14 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".view.activity.EditBillActivity"></activity>
-        <activity android:name=".view.activity.BillPreviewSaveActivity" />
+        <activity android:name=".view.activity.CompanyNameActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.activity.EditBillActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.BillPreviewSaveActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.BillPerviewActivity"
             android:screenOrientation="portrait" />

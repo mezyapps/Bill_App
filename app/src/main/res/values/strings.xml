@@ -53,4 +53,7 @@
     <string name="delete">Delete</string>
     <string name="bill_delete">Are You Sure You Want To Delete Bill</string>
     <string name="item">Item</string>
+    <string name="setting">Setting</string>
+    <string name="enter_company_name">Enter Company Name</string>
+    <string name="add_company_name">Add Company Name</string>
 </resources>

@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
     private ArrayList<LocalDBItemModel> localDBItemModelArrayList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private SelectBillIItemInterface selectBillIItemInterface;
-    private String itemId = "", getDate, sendDate,Item;
+    private String itemId = "", getDate, sendDate,Item="";
     String total_amount = "", totalQty = "";
     private ItemAdapter itemAdapter;
     private Button save_bill;
@@ -229,9 +229,9 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                int qtyInt = Integer.parseInt(qty);
-                int rateInt = Integer.parseInt(rate);
-                int amount = qtyInt * rateInt;
+                float qtyInt = Float.parseFloat(qty);
+                float rateInt = Float.parseFloat(rate);
+                float amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
             }
@@ -258,9 +258,9 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                int qtyInt = Integer.parseInt(qty);
-                int rateInt = Integer.parseInt(rate);
-                int amount = qtyInt * rateInt;
+                float qtyInt = Float.parseFloat(qty);
+                float rateInt = Float.parseFloat(rate);
+                float amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
 
@@ -507,11 +507,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
         qty = edt_qty.getText().toString().trim();
         rate = edt_rate.getText().toString().trim();
         Item = text_item.getText().toString().trim();
-        if (Item.equalsIgnoreCase("")) {
-            text_item.setError("Enter Item");
-            text_item.requestFocus();
-            return false;
-        }else if (qty.equalsIgnoreCase("")) {
+        if (qty.equalsIgnoreCase("")) {
             edt_qty.setError("Enter Qty");
             edt_qty.requestFocus();
             return false;

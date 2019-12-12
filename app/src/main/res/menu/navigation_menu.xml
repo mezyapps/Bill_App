@@ -15,6 +15,11 @@
         android:id="@+id/nav_bill_list"
         android:icon="@drawable/ic_vector_bill_list"/>
 
+    <item
+        android:title="@string/setting"
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_vectors_settings"/>
+
 
     <item
         android:title="@string/share_app"
