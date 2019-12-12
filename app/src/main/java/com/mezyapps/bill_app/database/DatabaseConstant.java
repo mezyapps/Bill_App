@@ -63,11 +63,9 @@ public class DatabaseConstant {
 
     public static class ItemName
     {
-        public static final String ID="ITEM_ID";
         public static final String ITEM="ITEM_NAME";
         public static final String TABLE_NAME="ItemName";
 
-        public static final String TEMP_NAME = "CREATE TABLE " +TABLE_NAME+ "(" + ID + " INTEGER,"
-                + ITEM + " TEXT"+")";
+        public static final String ITEM_NAME = "CREATE TABLE " +TABLE_NAME+ "("+ ITEM + " TEXT"+")";
     }
 }

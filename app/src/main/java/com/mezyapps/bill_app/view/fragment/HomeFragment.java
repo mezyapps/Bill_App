@@ -1,5 +1,6 @@
 package com.mezyapps.bill_app.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -19,15 +20,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +56,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -79,6 +85,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
     public static ApiInterface apiInterface;
     private String user_id;
     private Dialog dialog_check_user_session;
+    private HashSet<String> stringHashSet=new HashSet<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,6 +125,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
         textDate.setText(date);
         user_id = SharedLoginUtils.getUserId(mContext);
         text_item.requestFocus();
+        callListItemName();
         callCheckSession();
         callListItem();
     }
@@ -198,6 +206,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
         dialog_check_user_session.show();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void events() {
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,9 +238,9 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                float qtyInt = Float.parseFloat(qty);
-                float rateInt = Float.parseFloat(rate);
-                float amount = qtyInt * rateInt;
+                Double qtyInt = Double.parseDouble(qty);
+                Double rateInt = Double.parseDouble(rate);
+                Double amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
             }
@@ -258,9 +267,9 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 if (rate.equalsIgnoreCase("")) {
                     rate = "0";
                 }
-                float qtyInt = Float.parseFloat(qty);
-                float rateInt = Float.parseFloat(rate);
-                float amount = qtyInt * rateInt;
+                Double qtyInt = Double.parseDouble(qty);
+                Double rateInt = Double.parseDouble(rate);
+                Double amount = qtyInt * rateInt;
                 amt = String.valueOf(amount);
                 edt_amt.setText(amt);
 
@@ -285,6 +294,39 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 callCalendarPicker();
             }
         });
+
+        text_item.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                text_item.showDropDown();
+                return false;
+            }
+        });
+    }
+
+    private void callListItemName() {
+        try {
+            String selectQuery = "SELECT  * FROM " + DatabaseConstant.ItemName.TABLE_NAME;
+
+            stringHashSet.clear();
+            SQLiteDatabase db = databaseHandler.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+            while (cursor.moveToNext()) {
+                String itemName = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemName.ITEM));
+                stringHashSet.add(itemName);
+            }
+            if (stringHashSet.size() != 0) {
+                ArrayList<String> arrayList=new ArrayList<>();
+                arrayList.addAll(stringHashSet);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, arrayList);
+                text_item.setThreshold(1);
+                text_item.setAdapter(adapter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void callAddItem() {
@@ -311,11 +353,26 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 edt_amt.setText("");
                 text_item.requestFocus();
                 db.close();
+                callAddItemName(Item);
                 callListItem();
             }
         } catch (Exception e) {
             Toast.makeText(mContext, "Item Not Add", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void callAddItemName(String item) {
+        try {
+
+            SQLiteDatabase db = databaseHandler.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseConstant.ItemName.ITEM, item);
+            db.insert(DatabaseConstant.ItemName.TABLE_NAME, null, contentValues);
+            callListItemName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void callEditItem() {

@@ -18,6 +18,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(DatabaseConstant.BillHD.BILL_HD);
         db.execSQL(DatabaseConstant.BillDT.BILL_TD);
         db.execSQL(DatabaseConstant.ItemTEMP.BILL_TABLE);
+        db.execSQL(DatabaseConstant.ItemName.ITEM_NAME);
     }
 
     @Override
@@ -26,5 +27,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseConstant.BillDT.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseConstant.BillHD.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseConstant.ItemTEMP.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseConstant.ItemName.TABLE_NAME);
     }
 }
