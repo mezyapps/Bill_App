@@ -201,7 +201,7 @@ public class BillPreviewSaveActivity extends AppCompatActivity {
         document.setMargins(10, 10, 0f, 0f);
         float fontSize=10.0f;
 
-        PdfPTable table = new PdfPTable(new float[]{2,2, 2, 2, 2});
+        PdfPTable table = new PdfPTable(new float[]{1,2, 2, 2, 2});
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
         table.getDefaultCell().setFixedHeight(20);
         table.setTotalWidth(PageSize.A5.getWidth());
