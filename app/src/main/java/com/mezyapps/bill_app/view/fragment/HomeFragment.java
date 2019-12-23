@@ -19,11 +19,13 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -77,7 +79,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
     private LinearLayoutManager linearLayoutManager;
     private SelectBillIItemInterface selectBillIItemInterface;
     private String itemId = "", getDate, sendDate,Item="";
-    String total_amount = "", totalQty = "";
+    long total_amount, totalQty;
     private ItemAdapter itemAdapter;
     private Button save_bill;
     public static boolean isToRefresh = false;
@@ -302,6 +304,23 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 return false;
             }
         });
+        edt_rate.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (validation()) {
+                        if (itemId.equalsIgnoreCase("")) {
+                            callAddItem();
+                        } else {
+                            callEditItem();
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void callListItemName() {
@@ -327,6 +346,7 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void callAddItem() {
@@ -414,8 +434,8 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
                 String qty = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.QTY));
                 String rate = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.RATE));
                 String amt = cursor.getString(cursor.getColumnIndex(DatabaseConstant.Item.AMOUNT));
-                total_amount = cursor.getString(cursor.getColumnIndex("TOTAL_AMT"));
-                totalQty = cursor.getString(cursor.getColumnIndex("TOTAL_QTY"));
+                total_amount = cursor.getLong(cursor.getColumnIndex("TOTAL_AMT"));
+                totalQty = cursor.getLong(cursor.getColumnIndex("TOTAL_QTY"));
 
 
                 LocalDBItemModel localDBItemModel = new LocalDBItemModel();
@@ -572,7 +592,11 @@ public class HomeFragment extends Fragment implements SelectBillIItemInterface {
             edt_rate.setError("Enter Rate");
             edt_rate.requestFocus();
             return false;
+        }else if (amt.equalsIgnoreCase("0.0")) {
+            Toast.makeText(mContext, "Enter valid Qty OR Rate", Toast.LENGTH_SHORT).show();
+            return false;
         }
+
 
         return true;
     }

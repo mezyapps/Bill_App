@@ -16,9 +16,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -62,7 +64,7 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
     private LinearLayoutManager linearLayoutManager;
     private SelectBillIItemInterface selectBillIItemInterface;
     private String itemId = "", getDate, sendDate;
-    String total_amount = "", totalQty = "";
+    long total_amount , totalQty;
     private ItemAdapter itemAdapter;
     private Button save_bill, delete_bill;
     private BillHDModel billHDModel;
@@ -224,8 +226,8 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
                 String qty = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.QTY));
                 String rate = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.RATE));
                 String amt = cursor.getString(cursor.getColumnIndex(DatabaseConstant.ItemTEMP.AMOUNT));
-                total_amount = cursor.getString(cursor.getColumnIndex("TOTAL_AMT"));
-                totalQty = cursor.getString(cursor.getColumnIndex("TOTAL_QTY"));
+                total_amount = cursor.getLong(cursor.getColumnIndex("TOTAL_AMT"));
+                totalQty = cursor.getLong(cursor.getColumnIndex("TOTAL_QTY"));
 
 
                 LocalDBItemModel localDBItemModel = new LocalDBItemModel();
@@ -425,7 +427,23 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
                 return false;
             }
         });
+        edt_rate.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (validation()) {
+                        if (itemId.equalsIgnoreCase("")) {
+                            callAddItem();
+                        } else {
+                            callEditItem();
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void callDeleteBill() {
@@ -583,15 +601,14 @@ public class EditBillActivity extends AppCompatActivity implements SelectBillIIt
 
 
                 SQLiteDatabase db = databaseHandler.getWritableDatabase();
-                String sql = "UPDATE BILL_HD \n" +
-                        "SET CUST_NAME = ?, \n" +
-                        "BILL_DATE = ?, \n" +
-                        "DATE_Y_M_D = ?, \n" +
-                        "TOTAL_QTY = ?, \n" +
-                        "TOTAL_AMT = ? \n" +
-                        "WHERE BILL_ID = ?;\n";
 
-                db.execSQL(sql, new String[]{cust_name, date, sendDate, totalQty, total_amount, bill_no});
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabaseConstant.BillHD.CUST_NAME,cust_name);
+                contentValues.put(DatabaseConstant.BillHD.BILL_DATE,date);
+                contentValues.put(DatabaseConstant.BillHD.DATE_Y_M_D,sendDate);
+                contentValues.put(DatabaseConstant.BillHD.TOTAL_QTY,totalQty);
+                contentValues.put(DatabaseConstant.BillHD.TOTAL_AMT,total_amount);
+                db.update(DatabaseConstant.BillHD.TABLE_NAME, contentValues, "BILL_ID = ?",new String[] { bill_no });
                 callSaveBillDT();
             } else {
                 Toast.makeText(this, "No Item Added", Toast.LENGTH_SHORT).show();
