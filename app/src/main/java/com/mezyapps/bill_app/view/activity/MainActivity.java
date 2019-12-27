@@ -9,9 +9,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     private boolean doubleBackToExitPressedOnce = false;
     private Dialog dialog_logout;
-    private TextView text_version_name, text_app_name,textView_name;
+    private TextView text_version_name, text_app_name,textView_name,text_help;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         textView_name =headerView.findViewById(R.id.textView_name);
         text_app_name = findViewById(R.id.text_app_name);
+        text_help = findViewById(R.id.text_help);
 
         //AppVersion Display
         String versionName = "";
@@ -100,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                     shareApplication();
                 }else if (id == R.id.nav_bill_list) {
                     startActivity(new Intent(MainActivity.this,BillListActivity.class));
+                }else if (id == R.id.nav_help) {
+                    watchYoutubeVideo();
                 }else if (id == R.id.nav_logout) {
                     logoutApplication();
                 }
@@ -108,7 +113,26 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        text_help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                watchYoutubeVideo();
+            }
+        });
     }
+
+
+    public void watchYoutubeVideo() {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + "VXfuwD8SVzs"));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http ://www.youtube.com/watch?v=" + "VXfuwD8SVzs"));
+        try {
+            startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            startActivity(webIntent);
+        }
+    }
+
 
 
     @Override

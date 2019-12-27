@@ -40,6 +40,22 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/text_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:text="Youtube"
+                android:layout_marginEnd="10dp"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic__vector_youtube"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/dark_red"
+                android:shadowColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
 

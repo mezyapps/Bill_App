@@ -56,4 +56,5 @@
     <string name="setting">Setting</string>
     <string name="enter_company_name">Enter Company Name</string>
     <string name="add_company_name">Add Company Name</string>
+    <string name="help">Help</string>
 </resources>

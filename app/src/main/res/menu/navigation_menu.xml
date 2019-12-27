@@ -28,6 +28,11 @@
 
 
     <item
+        android:title="@string/help"
+        android:id="@+id/nav_help"
+        android:icon="@drawable/ic__vector_youtube"/>
+
+    <item
         android:title="@string/logout"
         android:id="@+id/nav_logout"
         android:icon="@drawable/ic_vector_logout"/>

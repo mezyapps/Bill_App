@@ -9,6 +9,7 @@
     <color name="black">#000000</color>
     <color name="light_gray">#D3D3D3</color>
     <color name="red">#FF5959</color>
+    <color name="dark_red">#F00A0A</color>
 
 
 </resources>
